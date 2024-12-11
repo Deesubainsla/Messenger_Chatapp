@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import GroupIcon from '@mui/icons-material/Group';
@@ -12,19 +12,19 @@ import Profileblock from './App Layout/Profileblock.jsx';
 // import { deleteuser } from '../utils/redux/reduxSlice.js';
 import axios from 'axios';
 // import { io } from 'socket.io-client';
-import { mycontext } from '../utils/contextapi/Contextapi.jsx';
+import { Mycontext } from '../utils/contextapi/Contextapi.jsx';
 import Chatlist from './App Layout/Chatlist.jsx';
 
 function Header() {
 
     // const userid = useSelector((state)=>state.reduxslice.user); 
-    const { user: userid, setuser, socket } = mycontext();
+    const { user: userid, setuser, socket } = useContext(Mycontext);
+    
     // const dispatch = useDispatch();
     // const socket = useMemo(()=> io('http://localhost:3000'),[]);
     // const socketid = useSelector((state)=>state.reduxslice.socket);
     // const socket = useMemo(()=> io('http://localhost:3000', { query: { socketid } }) ) ;
-    const [newrequest, setnewrequest] = useState([]);
-    const [newnotification, setnewnotification] = useState([]);
+    
     const [allusers, setallusers] = useState([]);
     const [profileuser, setprofileuser] = useState(null);
 
@@ -103,6 +103,8 @@ function Header() {
         <div className='h-[4rem] px-4 sm:px-10 flex min-w-screen justify-between items-center bg-blue-600'>
             <h1 className='text-white font-bold text-3xl'>Messenger</h1>
             <div className='hidden sm:flex items-center gap-8 lg:gap-12'>
+
+                
 
                 <SearchIcon onClick={() => document.getElementById('searchmodal').showModal()} className='text-white cursor-pointer duration-500 hover:scale-125 transition hover:bg-blue-500 rounded-full' />
 
@@ -312,15 +314,11 @@ function Header() {
 
                     <div>
                         <div className='underline font-bold'>Requests</div>
-                        {(newrequest.length > 0) ? <div>show something</div> : <div>No request present</div>}
+                        
                     </div>
                     <div>
                         <div className='underline font-bold'>Notifications</div>
-                        {(newnotification.length > 0) ? newnotification.map((item, i) => (
-                            <div key={i}>
-                                {item}
-                            </div>
-                        )) : <div>No Notification present</div>}
+                        
                     </div>
                 </div>
             </dialog>

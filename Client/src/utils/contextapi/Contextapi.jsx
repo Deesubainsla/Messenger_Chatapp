@@ -6,7 +6,7 @@ const Mycontext = createContext();
 const MycontextProvider = ({children})=>{
 
     const [user, setuser] = useState(null);
-    const [notification, setnotification] = useState([]);
+    
     // const socket = useMemo(()=> io('http://localhost:3000'),[]); 
     //Socket was causing issue with useMemo
     const [socket, setsocket] = useState(null);
@@ -68,11 +68,11 @@ const MycontextProvider = ({children})=>{
     
 
     return(
-        <Mycontext.Provider value={{user,setuser,notification,setnotification,socket}} >
+        <Mycontext.Provider value={{user,setuser,socket}} >
             {children}
         </Mycontext.Provider>
     )
 }
 
-const mycontext = ()=> useContext(Mycontext);
-export {mycontext, MycontextProvider}
+// const mycontext = ()=> useContext(Mycontext);
+export {Mycontext, MycontextProvider}

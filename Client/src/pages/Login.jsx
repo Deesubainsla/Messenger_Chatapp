@@ -1,15 +1,15 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useContext } from 'react'
 import { Paper, TextField, Typography, Container, Button } from '@mui/material'
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import axios from 'axios';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
-import { mycontext } from '../utils/contextapi/Contextapi.jsx';
+import { Mycontext } from '../utils/contextapi/Contextapi.jsx';
 
 
 function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const {setuser, socket , user} = mycontext();
+    const {setuser} = useContext(Mycontext);
     // const {socket} = useSelector((state)=>state.reduxslice);
     const navigate = useNavigate();
     

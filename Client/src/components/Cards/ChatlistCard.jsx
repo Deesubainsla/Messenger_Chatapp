@@ -1,7 +1,8 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState, useContext} from 'react'
 import {useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
-import { mycontext } from '../../utils/contextapi/Contextapi';
+import { Mycontext } from '../../utils/contextapi/Contextapi';
+import { ncontext } from '../../utils/contextapi/Ncontext';
 
 
 function ChatlistCard({chat}) {
@@ -10,8 +11,8 @@ function ChatlistCard({chat}) {
   const navigate = useNavigate();
   const [newmsg, setnewmsg] = useState(0);
   const [isactive, setisactive] = useState(false);
-//   const {notification,user,socket, setnotification} = mycontext();
-  const {socket} = mycontext();
+  const {socket} = useContext(Mycontext);
+  const {notification,setnotification} = ncontext();
 
 
   useEffect(() => {
@@ -70,23 +71,23 @@ function ChatlistCard({chat}) {
 //         }
 //   }
 
-    // useEffect(() => {
-    //     let count = 0;
-    //     notification.forEach(msg => {
-    //         if(msg.chat._id == chat._id){
-    //             count++;
-    //         }
-    //     });
+    useEffect(() => {
+        let count = 0;
+        notification.forEach(msg => {
+            if(msg.chat._id == chat._id){
+                count++;
+            }
+        });
 
-    //     setnewmsg(count);
-    // }, [notification])
+        setnewmsg(count);
+    }, [notification])
     
     const handleclick = ()=>{
-        // setnewmsg(0);
-        // const filterednotification = notification.filter(msg=>(
-        //         msg.chat._id.toString() !== chat._id.toString()
-        // ));
-        // setnotification(filterednotification);
+        setnewmsg(0);
+        const filterednotification = notification.filter(msg=>(
+                msg.chat._id.toString() !== chat._id.toString()
+        ));
+        setnotification(filterednotification);
 
         navigate(`/chat/${chat._id}`);
     }

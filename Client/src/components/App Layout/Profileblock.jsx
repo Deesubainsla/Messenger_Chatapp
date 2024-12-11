@@ -3,7 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import axios from 'axios';
 // import { useSelector } from 'react-redux';
 import moment from 'moment'
-import { mycontext } from '../../utils/contextapi/Contextapi';
 
 function Profileblock({user}) {
     // const [profile, setprofile] = useState(null); 

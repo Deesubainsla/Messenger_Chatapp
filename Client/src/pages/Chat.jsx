@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import Layout from '../components/Layout.jsx'
 import { useParams, useNavigate } from 'react-router-dom';
-import { mycontext } from '../utils/contextapi/Contextapi.jsx';
+import { Mycontext } from '../utils/contextapi/Contextapi.jsx';
 import axios from 'axios';
 import Chatmsg from '../components/common components/chatmsg.jsx';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Profileblock from '../components/App Layout/Profileblock.jsx';
+import { ncontext } from '../utils/contextapi/Ncontext.jsx';
 // import { useSelector } from 'react-redux';
 // import {io} from 'socket.io-client'
 
@@ -44,7 +45,8 @@ function Chat() {
 
   const { chatid } = useParams();
   // const {socket } = useSelector((state)=>state.reduxslice);
-  const { socket, user, setnotification } = mycontext();
+  const { socket } = useContext(Mycontext);
+  const {setnotification} = ncontext();
   // console.log('Socket from frontend: ', socket);
 
 
@@ -60,6 +62,10 @@ function Chat() {
       chatcontainer.current.scrollTop = chatcontainer.current.scrollHeight;
     }
   }, [messages])
+
+  // const checknewnotification = ()=>{
+  //     setnewnotification(prev => prev+1);
+  // }
 
   // useEffect(() => {
 
@@ -346,6 +352,8 @@ function Chat() {
           ))}
 
         </div>
+
+        
 
         {isyoutyping && <div className='flex items-end'>Typing<span className="loading loading-dots loading-md"></span></div>}
         {/* Chat Input Form (Always at the bottom) */}

@@ -1,7 +1,7 @@
-import React, { lazy, Suspense, useEffect, useMemo } from 'react'
+import React, { lazy, Suspense, useEffect, useContext } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { mycontext } from './utils/contextapi/Contextapi.jsx';
+import { Mycontext } from './utils/contextapi/Contextapi.jsx';
 // import {useSelector, useDispatch} from 'react-redux';
 // import { setuser, deleteuser, setsocket } from './utils/redux/reduxSlice.js';
 // import { io } from 'socket.io-client';
@@ -18,7 +18,7 @@ const Notfound = lazy(() => import('./pages/Notfound.jsx'));
 function App() {
 
 
-  const { user, socket, setuser } = mycontext();
+  const { user, setuser } = useContext(Mycontext);
   // const navigate = useNavigate();
   // console.log("user:", user);
   // const navigate = useNavigate();

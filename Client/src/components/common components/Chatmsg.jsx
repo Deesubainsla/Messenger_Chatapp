@@ -1,9 +1,9 @@
-import React from 'react'
-import { mycontext } from '../../utils/contextapi/Contextapi.jsx'
+import React,{useContext} from 'react'
+import { Mycontext } from '../../utils/contextapi/Contextapi.jsx'
 
 function Chatmsg({ sender, content, avatar="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" }) {
 
-    const { user } = mycontext();
+    const { user } = useContext(Mycontext);
 
     const sameuser = (sender == user);
 
