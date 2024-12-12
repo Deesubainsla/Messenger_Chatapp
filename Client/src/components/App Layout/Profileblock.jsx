@@ -21,7 +21,7 @@ function Profileblock({user}) {
             {/* <div className='min-h-[200px] w-[200px] overflow-hidden rounded-full bg-white'>
                 <img className='h-full w-full object-cover' src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?w=740&t=st=1727266763~exp=1727267363~hmac=95922af5c72d8befd44ac2175b6befa8a010f0158e7d12df4690974eaa8284ee" alt="profile" />
             </div> */}
-            <div className='h-[200px] w-[200px] overflow-hidden rounded-full bg-white'>
+            <div className=' h-[200px] w-[200px] overflow-hidden rounded-full bg-white'>
                 <img className='h-full w-full object-cover' src={user?.avatar.url} alt="profile" />
             </div>
 

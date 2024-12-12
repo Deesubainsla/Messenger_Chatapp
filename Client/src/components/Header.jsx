@@ -13,12 +13,16 @@ import Profileblock from './App Layout/Profileblock.jsx';
 import axios from 'axios';
 // import { io } from 'socket.io-client';
 import { Mycontext } from '../utils/contextapi/Contextapi.jsx';
+import { ncontext } from '../utils/contextapi/Ncontext.jsx';
 import Chatlist from './App Layout/Chatlist.jsx';
 
 function Header() {
 
     // const userid = useSelector((state)=>state.reduxslice.user); 
     const { user: userid, setuser, socket } = useContext(Mycontext);
+    const {notification} = ncontext();
+
+
     
     // const dispatch = useDispatch();
     // const socket = useMemo(()=> io('http://localhost:3000'),[]);
@@ -27,6 +31,15 @@ function Header() {
     
     const [allusers, setallusers] = useState([]);
     const [profileuser, setprofileuser] = useState(null);
+    const [notificationcount, setnotificationcount] = useState(0);
+    const [searchinput, setsearchinput] = useState("");
+
+    useEffect(() => {
+
+        setnotificationcount(notification.length);
+     
+    }, [notification])
+    
 
     // const handlesocket = () => {
     //     console.log("emmiting socket notification:")
@@ -184,7 +197,13 @@ function Header() {
                     <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                     <div className="drawer-content">
                         {/* Page content here */}
-                        <label htmlFor="my-drawer" className="drawer-button "><MenuIcon className='text-white' /></label>
+                        <label htmlFor="my-drawer" className="drawer-button relative">
+                            <MenuIcon className='text-white ' />
+                            {notificationcount>0 && <div className='absolute h-[15px] w-[15px] text-white bg-red-600 -top-3 -right-3 flex justify-center items-center p-3 rounded-full'>
+                                {notificationcount}
+                            </div>}
+                        </label>
+                        
                     </div>
                     <div className="drawer-side ">
                         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay "></label>

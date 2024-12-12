@@ -95,7 +95,7 @@ function ChatlistCard({chat}) {
 
   return <>
         <div onClick={handleclick}
-         className={`w-full flex items-center h-[60px]  my-1 shadow-md overflow-hidden bg-white border rounded-lg ${newmsg?"border-2 border-green-600":""} `}>
+         className={`w-full flex items-center h-[60px]  my-1 shadow-md overflow-hidden bg-white border rounded-lg ${newmsg?"border-4 border-green-600":""} `}>
             {/* <div className='h-full relative rounded-full overflow-hidden  shrink-0'>
                 <img className='h-full w-full' src={avatar} alt="profile" />
 
