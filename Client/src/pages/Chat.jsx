@@ -24,9 +24,10 @@ function Chat() {
 
 
   //Audio files:
-  const notificationsound = new Audio('../../public/notificationrecieve.wav');
-  const msgsend = new Audio('../../public/msgsend.wav');
-  const msgrecieve = new Audio('../../public/msgrecieve.mp3');
+  const notificationsound = new Audio('/notificationrecieve.wav');
+  const msgsend = new Audio('/msgsend.wav');
+  const msgrecieve = new Audio('/msgrecieve.mp3');
+  //files in public folder server as root:
   
 
   //The benefit of using useRef is accuracy and it doesn't cause rerender when useRef.current change:

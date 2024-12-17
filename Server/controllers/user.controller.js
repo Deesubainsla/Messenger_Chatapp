@@ -1,6 +1,6 @@
 import User from '../models/user.model.js'
 import jwt from 'jsonwebtoken';
-import bcrypt,{compare} from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { error } from '../middlewares/Error.middleware.js';
 import wrapper from '../utils/trycatch.wrapper.js';
 import uploadtocloudinary from '../utils/cloudinary.js';
@@ -16,7 +16,7 @@ const cookieoptions = {
     // path:'/'
 };
 
-
+const {compare} = bcrypt;
 
 const signin = wrapper(
     async(req,res) => {
