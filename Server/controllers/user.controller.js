@@ -6,6 +6,7 @@ import wrapper from '../utils/trycatch.wrapper.js';
 import uploadtocloudinary from '../utils/cloudinary.js';
 import upload from '../middlewares/multer.middleware.js';
 import Messege from '../models/messege.model.js';
+import Chat from '../models/chat.model.js';
 
 const cookieoptions = {
     maxAge: 15*24*60*60*1000 ,//15 days
@@ -158,7 +159,13 @@ const logout = wrapper(async(req, res, next) => {
 const getalluser = wrapper(async(req,res)=>{
     const userid = req.user;
 
-    const users = await User.find({_id:{$ne:userid}});
+    const chats = await Chat.find({members: userid}).select("members");
+
+    let friendsarray = [userid];
+    friendsarray = chats.flatMap(({members})=>members.filter((id)=> id.toString() != userid.toString()))
+
+
+    const users = await User.find({_id:{$nin:friendsarray}});
 
     res.status(200).json({message:'user fetched successfully', users});
 })

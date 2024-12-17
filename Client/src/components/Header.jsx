@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import GroupIcon from '@mui/icons-material/Group';
@@ -30,15 +30,30 @@ function Header() {
     // const socket = useMemo(()=> io('http://localhost:3000', { query: { socketid } }) ) ;
     
     const [allusers, setallusers] = useState([]);
+    const [searchedusers, setsearchedusers] = useState([]);
     const [profileuser, setprofileuser] = useState(null);
     const [notificationcount, setnotificationcount] = useState(0);
     const [searchinput, setsearchinput] = useState("");
+    const [menuinput, setmenuinput] = useState(false);
+    // const menuinput = useRef(null);
 
     useEffect(() => {
 
         setnotificationcount(notification.length);
      
     }, [notification])
+
+    const searchhandler = (e)=>{
+        const searchvalue = e.target.value;
+        setsearchinput(searchvalue);
+
+        const outputlist = allusers.filter(({username})=> 
+            username.toLowerCase().includes(searchvalue.toLowerCase()));
+
+
+
+        setsearchedusers(outputlist);
+    }
     
 
     // const handlesocket = () => {
@@ -72,6 +87,7 @@ function Header() {
                     withCredentials: true
                 });
                 setallusers(data.users);
+                setsearchedusers(data.users);
                 // console.log('all user fetched successfully:')
             } catch (error) {
                 console.log(error.response.data.message);
@@ -165,9 +181,9 @@ function Header() {
             <div className='sm:hidden flex justify-center items-center gap-8'>
 
 
-            <div className='relative z-50'>
+            <div className={`relative  z-50`}>
                     <div className="drawer   drawer-end">
-                        <input id="headerprofilemobile" type="checkbox" className="drawer-toggle" />
+                        <input  id="headerprofilemobile" type="checkbox" className="drawer-toggle" />
                         <div className="drawer-content ">
 
                             <label htmlFor="headerprofilemobile" className="drawer-button ">
@@ -193,11 +209,12 @@ function Header() {
                 </div>
                 
 
-                <div className="drawer z-50 ">
-                    <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+                <div className={`drawer ${menuinput?"z-50":"z-40"}`}>
+                    
+                    <input checked={menuinput} onChange={(e)=>setmenuinput(e.target.checked)}  id="chatdrawer" type="checkbox" className="drawer-toggle" />
                     <div className="drawer-content">
                         {/* Page content here */}
-                        <label htmlFor="my-drawer" className="drawer-button relative">
+                        <label htmlFor="chatdrawer" className="drawer-button relative">
                             <MenuIcon className='text-white ' />
                             {notificationcount>0 && <div className='absolute h-[15px] w-[15px] text-white bg-red-600 -top-3 -right-3 flex justify-center items-center p-3 rounded-full'>
                                 {notificationcount}
@@ -206,7 +223,7 @@ function Header() {
                         
                     </div>
                     <div className="drawer-side ">
-                        <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay "></label>
+                        <label htmlFor="chatdrawer" aria-label="close sidebar" className="drawer-overlay "></label>
                         {/* <ul className="menu  bg-white text-base-content min-h-full w-60 p-4">
                             
                             <li><a>Sidebar Item 1</a></li>
@@ -235,7 +252,11 @@ function Header() {
                                 Logout<LogoutIcon className='text-white'  />
                             </button>
 
-                            <Chatlist/>
+                            
+                            <div onClick={()=> setmenuinput(false)}>
+                                <Chatlist  />
+                            </div>
+                            
 
                             </div>
                             
@@ -257,7 +278,7 @@ function Header() {
                     <h3 className="font-bold text-lg">Add Friend</h3>
 
                     <label className="input input-bordered flex mt-4 mb-2 items-center gap-2">
-                        <input type="text" className="grow" placeholder="Search User" />
+                        <input type="text" className="grow" placeholder="Search User" onChange={searchhandler} />
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 16 16"
@@ -270,13 +291,13 @@ function Header() {
                         </svg>
                     </label>
 
-                    {allusers ? <div>
+                    {searchedusers ? <div>
 
                         {/* user && user.avatar && user.avatar.url */}
                         {/* user?.avatar?.url */}
 
                         {/* both upper lines are same 2nd called optional chaining */}
-                        {allusers.map((user) => (
+                        {searchedusers.map((user) => (
                             <div key={user._id}>
                                 <AddfriendCard avatar={user?.avatar?.url} username={user.username} id={user._id} />
                             </div>
@@ -313,9 +334,7 @@ function Header() {
                         </svg>
                     </label>
 
-                    <AddfriendCard />
-                    <AddfriendCard />
-                    <AddfriendCard />
+                        <div>Work Pending:</div>
                 </div>
             </dialog>
 
@@ -329,16 +348,7 @@ function Header() {
                         {/* if there is a button in form, it will close the modal */}
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
-                    <h3 className="font-bold text-lg mb-4">New Request</h3>
-
-                    <div>
-                        <div className='underline font-bold'>Requests</div>
-                        
-                    </div>
-                    <div>
-                        <div className='underline font-bold'>Notifications</div>
-                        
-                    </div>
+                    <div>Work Pending:</div>
                 </div>
             </dialog>
 

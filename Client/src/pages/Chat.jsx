@@ -21,6 +21,12 @@ function Chat() {
   const [selectedchat, setselectedchat] = useState(null);
   const [selecteduser, setselecteduser] = useState(null);
   const [drawerinput, setdrawerinput] = useState(false);
+
+
+  //Audio files:
+  const notificationsound = new Audio('../../public/notificationrecieve.wav');
+  const msgsend = new Audio('../../public/msgsend.wav');
+  const msgrecieve = new Audio('../../public/msgrecieve.mp3');
   
 
   //The benefit of using useRef is accuracy and it doesn't cause rerender when useRef.current change:
@@ -101,9 +107,11 @@ function Chat() {
       socket.on('messagerecieve', (newmsg) => {
         if (chatid && newmsg.chat._id == chatid) {
           setmessages(prev => [...prev, newmsg]);
+          msgrecieve.play();
         }
         else {
           setnotification(prev => [newmsg, ...prev]);
+          notificationsound.play();
           // console.log("newmsg:",newmsg);
         }
 
@@ -177,6 +185,7 @@ function Chat() {
         // console.log('new message:', res.data);
         setinput('');
         setmessages(prev => [...prev, res.data.newmessage]);
+        msgsend.play();
         socket.emit('new message', res.data.newmessage);
 
       } catch (error) {

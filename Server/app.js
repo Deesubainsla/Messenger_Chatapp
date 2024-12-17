@@ -32,7 +32,7 @@ io.on('connection',(socket)=>{
     })
 
     socket.on('user connected',(userid)=>{
-        console.log("userconnected work in backend:")
+        // console.log("userconnected work in backend:")
         onlineuser.set(userid,socket.id);
         io.emit('connected users', Array.from(onlineuser.keys()));
     })

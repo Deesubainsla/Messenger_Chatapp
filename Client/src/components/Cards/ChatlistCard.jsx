@@ -11,7 +11,7 @@ function ChatlistCard({chat}) {
   const navigate = useNavigate();
   const [newmsg, setnewmsg] = useState(0);
   const [isactive, setisactive] = useState(false);
-  const {socket} = useContext(Mycontext);
+  const {socket, user} = useContext(Mycontext);
   const {notification,setnotification} = ncontext();
 
 
@@ -24,34 +24,36 @@ function ChatlistCard({chat}) {
     // }
     if(socket){
 
-        socket.emit('getonlinestatus');
+        
 
-        if(!chat.groupchat){
-            socket.on('connected users',(usersid)=>{
-    
-                if(usersid.includes(chat.members[0])){
-                    setisactive(true);
-                }
-                else{
-                    setisactive(false);
-                }
-        
-            })
-        }
-        
-    
-        return ()=>{
-            if(!chat.groupchat){
-                socket.off('connected users');
+       
+        socket.on('connected users',(usersid)=>{
+
+            if(usersid.includes(chat.members[0])){
+                setisactive(true);
             }
+            else{
+                setisactive(false);
+            }
+    
+        })
+
+        socket.emit('getonlinestatus');
+        
+        
+    
+        // return ()=>{
             
-        }
+        //     socket.off('connected users');
+            
+            
+        // }
 
     }
 
     
    
-  }, [socket])
+  }, [socket,user])
   
 
   

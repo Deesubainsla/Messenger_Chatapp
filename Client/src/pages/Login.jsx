@@ -108,13 +108,23 @@ function Login() {
     
     
     return <>
-        <div className='min-h-screen flex justify-center items-center'>
+        <div className='min-h-screen  flex justify-center items-center'>
+            <video
+                className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
+                autoPlay
+                loop
+                muted
+            >
+                <source src="../../public/loginbg.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+
             {login ?
                 //login component:
                 //direct passing in order to prevent unnecessary renders:
                 (
 
-                    <div className='p-8 px-12 w-[85%] md:w-[40%]  border-2 rounded-xl shadow-2xl  flex flex-col justify-center items-center'>
+                    <div className='p-8 px-12 w-[85%] md:w-[40%]  rounded-xl shadow-2xl bg-white   flex flex-col justify-center items-center'>
                         <h1 className='font-bold text-4xl mb-12 '>Login</h1>
                         <form className='w-full' onSubmit={handleSubmit(onlogin)}>
 
@@ -168,7 +178,7 @@ function Login() {
                 )
                 :
                 (
-                    <div className='p-8 px-12 w-[85%] md:w-[40%]  border-2 rounded-xl shadow-2xl  flex flex-col justify-center items-center'>
+                    <div className='p-8 px-12 w-[85%] md:w-[40%] bg-white   rounded-xl   flex flex-col justify-center items-center'>
                         <h1 className='font-bold text-4xl mb-5 '>Signin</h1>
                         <form className='w-full' onSubmit={handleSubmit(onsignin)}>
                             
