@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import {errormiddleware} from './middlewares/Error.middleware.js';
 import http from 'http'
 import {Server} from 'socket.io'
+import path from 'path'
 
 
 import userroute from './routes/user.route.js';
@@ -19,7 +20,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server,{
     cors:{
-        origin:['http://localhost:5173','http://localhost:4173', 'https://messenger-chatapp-frontend.vercel.app']
+        origin:['http://localhost:5173','http://localhost:4173', 'https://messenger-chatapp-frontend.vercel.app/']
     }//cors is important for socket connection
 });
 
@@ -119,13 +120,23 @@ app.use('/api/v1/message',messageroute)
 
 
 
-app.get('/',(req, res)=>{
-    res.send('Hello World')
-})
+
 
 //Error middleware
 app.use(errormiddleware);
 //Error middleware
+
+
+//My Backend Code for providing staticfile(unchangable files like html,js,etc) from frontend dist folder 
+
+const dirpath = path.resolve();
+app.use(express.static(path.join(dirpath,'dist')));
+
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(dirpath, "dist","index.html"));
+});
+
+//Backend code ends here:
 
 
 server.listen(port, ()=>{
