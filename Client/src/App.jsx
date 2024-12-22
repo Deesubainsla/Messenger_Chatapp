@@ -83,7 +83,7 @@ function App() {
   //   return user ? children : <Login />; //automatically render element inside this component:
   // }
 
-  return <div className='min-h-screen min-w-screen overflow-hidden'>
+  return <div className='max-h-screen m-0 p-0 overflow-hidden'>
     <BrowserRouter>
       <Suspense fallback={<div className='flex min-h-screen justify-center items-center'><span className="loading loading-dots loading-lg"></span></div>}>
         <Routes>

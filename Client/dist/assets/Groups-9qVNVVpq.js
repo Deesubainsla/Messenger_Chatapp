@@ -1,1 +1,0 @@
-import{j as r}from"./index-Byw7m6Un.js";import{L as o}from"./Layout-D-P0TIfO.js";import"./createSvgIcon-BhMJ-kai.js";function t(){return r.jsx("div",{children:"Groups"})}const e=o(t);export{e as default};

@@ -15,7 +15,7 @@ const MycontextProvider = ({children})=>{
 
       if(user){
 
-        const newsocket = io('http://localhost:3000'); 
+        const newsocket = io('https://messenger-chatapp-deployed.onrender.com'); 
         setsocket(newsocket);
 
         // newsocket.on('connect',(socket)=>{

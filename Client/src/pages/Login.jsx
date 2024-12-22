@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { Mycontext } from '../utils/contextapi/Contextapi.jsx';
+import loginvideo from '../../public/loginbg.mp4'
 
 
 function Login() {
@@ -115,7 +116,8 @@ function Login() {
                 loop
                 muted
             >
-                <source src="../../public/loginbg.mp4" type="video/mp4" />
+                <source src={loginvideo} type="video/mp4" />
+                {/* <source src="../../public/loginbg.mp4" type="video/mp4" /> */}
                 Your browser does not support the video tag.
             </video>
 
