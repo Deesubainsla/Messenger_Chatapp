@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { Mycontext } from '../utils/contextapi/Contextapi.jsx';
 import loginvideo from '../../public/loginbg.mp4'
+import { toast } from 'react-toastify';
 
 
 function Login() {
@@ -46,11 +47,12 @@ function Login() {
             setuser(res.data.user._id);
             // socket.emit('setup',res.data.user._id);
             navigate('/');
+            toast.success(`${res.data.user.username} loggedin successfully`)
             // console.log("logged in successfully ", res);
 
         } catch (error) {
 
-            console.log("In catch block: ", error.response.data.message);
+            toast.error("In catch block: ", error.response.data.message);
         }
 
 
@@ -71,7 +73,7 @@ function Login() {
             password: data.newpassword
         }
 
-        console.log("signinfo ", signinfo);
+        // console.log("signinfo ", signinfo);
 
         try {
 
@@ -84,10 +86,10 @@ function Login() {
 
             setuser(res.data.user._id);
             navigate('/');
-            console.log("signin successfully ", res);
+            toast.success(`${res.data.user.username} Signedin successfully`);
 
         } catch (error) {
-            console.log("Error in signin: ",error.message);
+            toast.error("Error in signin: ",error.message);
         }
 
     }
@@ -109,12 +111,13 @@ function Login() {
     
     
     return <>
-        <div className='min-h-screen  flex justify-center items-center'>
+        <div className='min-h-screen relative  flex justify-center items-center'>
             <video
                 className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
                 autoPlay
                 loop
                 muted
+                playsInline
             >
                 <source src={loginvideo} type="video/mp4" />
                 {/* <source src="../../public/loginbg.mp4" type="video/mp4" /> */}

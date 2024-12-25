@@ -6,7 +6,7 @@ import { ncontext } from '../../utils/contextapi/Ncontext.jsx';
 function Chatlist() {
 
   const [friends, setfriends] = useState([]);
-  const {notification} = ncontext();
+  const {notification, fetchagain} = ncontext();
  
   useEffect(() => {
     const datafetch = async()=>{
@@ -23,7 +23,7 @@ function Chatlist() {
         // window.location.reload();   //for reload the page programatically from client side:
 
       } catch (error) {
-        console.log(error.response.data.message);
+        console.log("Error in chatlist:",error.response.data.message);
       }
 
     }
@@ -31,7 +31,7 @@ function Chatlist() {
     datafetch();
   
     
-  }, [notification])
+  }, [notification, fetchagain])
   
 
   return <>

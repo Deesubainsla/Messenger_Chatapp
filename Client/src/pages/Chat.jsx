@@ -7,6 +7,7 @@ import Chatmsg from '../components/common components/chatmsg.jsx';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Profileblock from '../components/App Layout/Profileblock.jsx';
 import { ncontext } from '../utils/contextapi/Ncontext.jsx';
+import { toast } from 'react-toastify';
 // import { useSelector } from 'react-redux';
 // import {io} from 'socket.io-client'
 
@@ -105,6 +106,7 @@ function Chat() {
     // }
 
     if (socket) {
+      // console.log("socket of chat cpmponent:", socket);
       socket.on('messagerecieve', (newmsg) => {
         if (chatid && newmsg.chat._id == chatid) {
           setmessages(prev => [...prev, newmsg]);
@@ -157,7 +159,7 @@ function Chat() {
 
 
   const Handleclick = async (e) => {
-    
+    // console.log("e",e);
     e.preventDefault();
 
     if (mytypingref.current) {
@@ -281,9 +283,11 @@ function Chat() {
       await axios.delete(`${import.meta.env.VITE_SERVER}/chat/deletechat?chatid=${chatid}`, { withCredentials: true });
 
       navigate('/');
-      window.location.reload();
+      toast.success("Chat deleted successfully");
+      // window.location.reload();
+      
     } catch (error) {
-      console.log(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   }
 
@@ -368,6 +372,7 @@ function Chat() {
         {isyoutyping && <div className='flex items-end'>Typing<span className="loading loading-dots loading-md"></span></div>}
         {/* Chat Input Form (Always at the bottom) */}
         <div className='py-2 bg-blue-300'>
+          
           <form className="flex px-1" onSubmit={Handleclick} >
             <input
               className="w-full outline-none border border-gray-400 rounded-full px-2 py-1"

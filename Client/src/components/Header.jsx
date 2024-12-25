@@ -15,12 +15,13 @@ import axios from 'axios';
 import { Mycontext } from '../utils/contextapi/Contextapi.jsx';
 import { ncontext } from '../utils/contextapi/Ncontext.jsx';
 import Chatlist from './App Layout/Chatlist.jsx';
+import { toast } from 'react-toastify';
 
 function Header() {
 
     // const userid = useSelector((state)=>state.reduxslice.user); 
     const { user: userid, setuser, socket } = useContext(Mycontext);
-    const {notification} = ncontext();
+    const {notification, fetchagain} = ncontext();
 
 
     
@@ -35,7 +36,7 @@ function Header() {
     const [notificationcount, setnotificationcount] = useState(0);
     const [searchinput, setsearchinput] = useState("");
     const [menuinput, setmenuinput] = useState(false);
-    // const menuinput = useRef(null);
+    const addfriendclose = useRef(null);
 
     useEffect(() => {
 
@@ -95,7 +96,7 @@ function Header() {
         }
         datafetching();
 
-    }, [socket])
+    }, [socket, fetchagain])
 
     useEffect(() => {
         (async () => {
@@ -121,9 +122,10 @@ function Header() {
             await axios.delete(`${import.meta.env.VITE_SERVER}/user/logout`, { withCredentials: true });
 
             setuser(null);
+            toast.success("Logout successful")
             // console.log("User logged out successfully:");
         } catch (error) {
-            console.log(error.response.data.message);
+            toast.error(error.response.data.message);
         }
     }
 
@@ -253,6 +255,9 @@ function Header() {
                             </button>
 
                             
+                            {/* <div >
+                                <Chatlist  />
+                            </div> */}
                             <div onClick={()=> setmenuinput(false)}>
                                 <Chatlist  />
                             </div>
@@ -273,7 +278,7 @@ function Header() {
                 <div className="modal-box bg-white">
                     <form method="dialog">
                         {/* if there is a button in form, it will close the modal */}
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        <button ref={addfriendclose} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
                     <h3 className="font-bold text-lg">Add Friend</h3>
 
@@ -299,7 +304,7 @@ function Header() {
                         {/* both upper lines are same 2nd called optional chaining */}
                         {searchedusers.map((user) => (
                             <div key={user._id}>
-                                <AddfriendCard avatar={user?.avatar?.url} username={user.username} id={user._id} />
+                                <AddfriendCard avatar={user?.avatar?.url} username={user.username} id={user._id} setmenu={setmenuinput} closebtn={addfriendclose} />
                             </div>
                         ))}
                     </div> : <div>No user fetched</div>}

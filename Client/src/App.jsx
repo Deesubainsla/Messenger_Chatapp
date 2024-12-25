@@ -1,7 +1,8 @@
-import React, { lazy, Suspense, useEffect, useContext } from 'react'
+import React, { lazy, Suspense, useEffect,useState, useContext } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Mycontext } from './utils/contextapi/Contextapi.jsx';
+import { ncontext } from './utils/contextapi/Ncontext.jsx';
 // import {useSelector, useDispatch} from 'react-redux';
 // import { setuser, deleteuser, setsocket } from './utils/redux/reduxSlice.js';
 // import { io } from 'socket.io-client';
@@ -15,10 +16,17 @@ const Group = lazy(() => import('./pages/Groups.jsx'));
 const Notfound = lazy(() => import('./pages/Notfound.jsx'));
 
 
+
 function App() {
 
+  
+  const { user, setuser, socket } = useContext(Mycontext);
+  const {setnotification} = ncontext();
+  const [socketconnected, setsocketconnected] = useState(false);
+  
 
-  const { user, setuser } = useContext(Mycontext);
+  const homenotification = new Audio('/notificationrecieve.wav');
+  
   // const navigate = useNavigate();
   // console.log("user:", user);
   // const navigate = useNavigate();
@@ -48,9 +56,51 @@ function App() {
   //   // }
   // }, [user, socket])
 
+  
+  
+  
+ 
+
+  useEffect(() => {
+    if(socket){
+
+      socket.on('connect',()=>{
+        setsocketconnected(true);
+      })
+
+      return () => {
+        socket.off('connect');
+      }
+    }
+  
+    
+  }, [socket])
+  
+  
+  
+
+  useEffect(() => {
+    
+    if(socket && socketconnected){
+      socket.on('messagerecieve',(newmsg)=>{
+        // console.log("in messagerecieve event in app.js");
+        setnotification(prev => [newmsg, ...prev]);
+        homenotification.play();
+      })
+    
+  
+      return () => {
+        socket.off('messagerecieve');
+      }
+      
+    }
+  }, [socketconnected,socket, user])
+  
+  
+
   useEffect(() => {
     //simple promise syntax for simple commands otherwise use async await:
-
+    
 
     axios.get(`${import.meta.env.VITE_SERVER}/user/getprofile`, {
       withCredentials: true,// Allows the client to accept and send the credentials (like cookies)
@@ -84,6 +134,7 @@ function App() {
   // }
 
   return <div className='max-h-screen m-0 p-0 overflow-hidden'>
+    
     <BrowserRouter>
       <Suspense fallback={<div className='flex min-h-screen justify-center items-center'><span className="loading loading-dots loading-lg"></span></div>}>
         <Routes>

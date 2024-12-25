@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{Suspense} from 'react'
 import HelmetTittle from './HelmetTittle.jsx'
 import Header from './Header.jsx'
 import Chatlist from './App Layout/Chatlist.jsx'
@@ -16,7 +16,9 @@ function Layout(Component) {
             <Chatlist />
           </div>
           <div className='w-full h-full'>
+            <Suspense fallback={<div className='flex min-h-screen justify-center items-center'><span className="loading loading-dots loading-lg"></span></div>} >
             <Component {...props} />
+            </Suspense>
           </div>
           {/* <div className='w-1/4 border-2'>
             <Profileblock/>
